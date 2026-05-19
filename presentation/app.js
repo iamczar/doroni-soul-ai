@@ -269,6 +269,23 @@ document.addEventListener('keydown', e => {
 document.getElementById('sound-btn').addEventListener('click', () => { unlockSpeech(); toggleSound(); });
 document.getElementById('voice-btn').addEventListener('click', () => { unlockSpeech(); toggleVoice(); });
 
+// ── Touch / swipe navigation ──────────────────────────────
+let _touchStartX = 0;
+let _touchStartY = 0;
+
+document.addEventListener('touchstart', e => {
+  _touchStartX = e.changedTouches[0].clientX;
+  _touchStartY = e.changedTouches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - _touchStartX;
+  const dy = e.changedTouches[0].clientY - _touchStartY;
+  if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+  unlockSpeech();
+  go(dx < 0 ? currentScene + 1 : currentScene - 1);
+}, { passive: true });
+
 // ── Helpers ───────────────────────────────────────────────
 function later(fn, ms) {
   const t = setTimeout(fn, ms);
