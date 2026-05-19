@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doroni Soul AI — Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 0 — Soul AI Identity
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene active" id="scene-0">
+    <canvas id="orb-canvas" class="scene-canvas"></canvas>
+    <div class="scene-content identity-content">
+      <header class="pres-header">
+        <div class="logo">
+          <img
+            src="https://doroni.io/wp-content/uploads/2023/01/Doroni-Aerospace-Logo-White.svg"
+            alt="DORONI"
+            class="logo-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <span class="logo-text">DORONI</span>
+        </div>
+        <span class="logo-product">Soul AI</span>
+      </header>
+      <div class="identity-hero">
+        <div class="soul-eyebrow">Internal Briefing — Soul AI</div>
+        <h1 class="identity-headline">The intelligence<br>behind Doroni.</h1>
+        <p class="identity-sub">
+          From morning briefing to post-flight debrief —<br>
+          one AI, every surface.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 1 — Relationship Map
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene" id="scene-1">
+    <canvas id="map-canvas" class="scene-canvas"></canvas>
+    <div class="scene-content map-overlay">
+      <div class="map-header">
+        <h2>One brain. Every surface.</h2>
+        <p>Soul AI is the shared intelligence layer — not re-implemented on each device. Mobile, cockpit, and simulator are clients. The intelligence is shared.</p>
+      </div>
+    </div>
+    <div id="map-tooltip" class="map-tooltip"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 2 — Three Pillars
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene" id="scene-2">
+    <div class="scene-content pillars-content">
+      <div class="section-header">
+        <h2>Three product pillars.</h2>
+        <p>Each surface contributes a distinct capability. Together they compound.</p>
+      </div>
+      <div class="pillars-grid">
+
+        <div class="pillar-card" data-delay="0">
+          <div class="pillar-icon">✈</div>
+          <div class="pillar-tag">Mobile</div>
+          <h3>Personal Flight Concierge</h3>
+          <p>Calendar-aware daily planning. Fly Plan generation. Fly-vs-drive decisions. Proactive briefing — before you ask.</p>
+          <ul class="pillar-feats">
+            <li>Daily agenda + departure recommendation</li>
+            <li>Remote cabin preparation</li>
+            <li>Route feasibility &amp; weather awareness</li>
+          </ul>
+        </div>
+
+        <div class="pillar-card" data-delay="160">
+          <div class="pillar-icon">⬡</div>
+          <div class="pillar-tag">Cockpit / NavApp</div>
+          <h3>Cockpit Command Companion</h3>
+          <p>Voice commands validated against risk levels before any MQTT message is sent. Concise during critical flight phases.</p>
+          <ul class="pillar-feats">
+            <li>Climate, lighting, navigation control</li>
+            <li>Real-time transcript &amp; animation overlay</li>
+            <li>Safety-first intent validation</li>
+          </ul>
+        </div>
+
+        <div class="pillar-card" data-delay="320">
+          <div class="pillar-icon">◎</div>
+          <div class="pillar-tag">Simulator + Telemetry</div>
+          <h3>Flight Intelligence &amp; Coaching</h3>
+          <p>Ingests telemetry from MSFS, X-Plane, and Embention. Builds a persistent pilot profile over time. Coaches on real gaps.</p>
+          <ul class="pillar-feats">
+            <li>Smoothness &amp; stability scoring</li>
+            <li>Post-session debrief generation</li>
+            <li>Personalised training recommendations</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 3 — Morning Briefing Journey
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene" id="scene-3">
+    <div class="scene-content journey-layout">
+
+      <div class="journey-copy">
+        <div class="pillar-num-badge">Pillar 1 of 3</div>
+        <div class="journey-tag">Mobile — Personal Flight Concierge</div>
+        <h2>Good morning, Alex.</h2>
+        <p>Soul AI starts planning your day before you consciously ask. Calendar, aircraft state, weather — already checked.</p>
+        <div class="journey-stats">
+          <div class="jstat">
+            <span class="jstat-val">26 min</span>
+            <span class="jstat-lbl">saved vs driving</span>
+          </div>
+          <div class="jstat">
+            <span class="jstat-val">9:28</span>
+            <span class="jstat-lbl">recommended departure</span>
+          </div>
+          <div class="jstat">
+            <span class="jstat-val">88%</span>
+            <span class="jstat-lbl">aircraft battery</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-bar">
+            <span class="phone-time">08:47</span>
+            <span class="phone-appname">Soul AI</span>
+          </div>
+          <div id="mobile-thread" class="chat-thread"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 4 — Cockpit Command Journey
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene" id="scene-4">
+    <!-- Full-screen NavApp recreation -->
+    <div class="navapp">
+
+      <!-- Compass / heading bar -->
+      <div class="nv-compass">
+        <div class="nv-compass-inner">
+          <span class="nv-hdg-letter">W</span>
+          <span class="nv-ticks">&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;</span>
+          <span class="nv-hdg-letter nv-hdg-active">N</span>
+          <span class="nv-ticks">&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;&#x2502;</span>
+          <span class="nv-hdg-letter">E</span>
+        </div>
+      </div>
+
+      <!-- Main body -->
+      <div class="nv-body">
+
+        <!-- Left: system checks -->
+        <div class="nv-systems">
+          <div class="nv-sys-title">ALL SYSTEMS PASS START-UP TEST</div>
+
+          <div class="nv-sys-section">MAIN SYSTEMS</div>
+          <div class="nv-sys-row"><span>Power System</span><span class="nv-pass">PASS</span></div>
+          <div class="nv-sys-row"><span>Battery Performance</span><span class="nv-pass">PASS</span></div>
+          <div class="nv-sys-row"><span>Network &amp; Communication</span><span class="nv-pass">PASS</span></div>
+
+          <div class="nv-sys-section">LIFT PROPULSION</div>
+          <div class="nv-sys-grid">
+            <div class="nv-sys-row"><span>Motor 1</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 3</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 2</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 4</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 5</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 7</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 6</span><span class="nv-pass">PASS</span></div>
+            <div class="nv-sys-row"><span>Motor 8</span><span class="nv-pass">PASS</span></div>
+          </div>
+
+          <div class="nv-sys-section">FORWARD PROPULSION</div>
+          <div class="nv-sys-row"><span>Left Thruster</span><span class="nv-pass">PASS</span></div>
+          <div class="nv-sys-row"><span>Right Thruster</span><span class="nv-pass">PASS</span></div>
+
+          <button class="nv-confirm-btn">Confirm to Continue</button>
+        </div>
+
+        <!-- Centre: H1-X aircraft canvas -->
+        <div class="nv-aircraft-wrap">
+          <canvas id="nv-aircraft" class="nv-aircraft-canvas"></canvas>
+        </div>
+
+        <!-- Right: live metrics -->
+        <div class="nv-metrics">
+          <div class="nv-metric-block">
+            <div class="nv-metric-label">BATTERY</div>
+            <div class="nv-metric-big">100</div>
+            <div class="nv-metric-unit">%</div>
+          </div>
+          <div class="nv-metric-block">
+            <div class="nv-metric-label">RANGE</div>
+            <div class="nv-metric-big">100</div>
+            <div class="nv-metric-unit">MI</div>
+          </div>
+          <div class="nv-metric-block nv-metric-sm">
+            <div class="nv-metric-label">AIR FLOW</div>
+            <div class="nv-fan" id="nv-fan">⊕</div>
+          </div>
+          <div class="nv-metric-block nv-metric-sm">
+            <div class="nv-metric-label">TEMP</div>
+            <div class="nv-metric-med">70</div>
+            <div class="nv-metric-unit">°F</div>
+          </div>
+        </div>
+
+      </div><!-- /nv-body -->
+
+      <!-- Bottom instruments -->
+      <div class="nv-instruments">
+        <div class="nv-inst-cell">
+          <span class="nv-inst-label">SPEED</span>
+          <span class="nv-inst-val">0</span>
+          <span class="nv-inst-unit">MPH</span>
+        </div>
+        <div class="nv-inst-div"></div>
+        <div class="nv-inst-cell nv-inst-wide">
+          <span class="nv-inst-label">NAVIGATION</span>
+          <span class="nv-inst-val">0.0</span>
+          <span class="nv-inst-unit">MILES REMAINING</span>
+        </div>
+        <div class="nv-inst-div"></div>
+        <div class="nv-inst-cell">
+          <span class="nv-inst-label">VERTICAL</span>
+          <span class="nv-inst-val">0</span>
+          <span class="nv-inst-unit">FT/MIN</span>
+        </div>
+        <div class="nv-inst-div"></div>
+        <div class="nv-inst-cell">
+          <span class="nv-inst-label">ALTITUDE</span>
+          <span class="nv-inst-val">0</span>
+          <span class="nv-inst-unit">FT</span>
+        </div>
+        <div class="nv-inst-div"></div>
+        <div class="nv-inst-cell">
+          <span class="nv-inst-label">ETE</span>
+          <span class="nv-inst-val nv-inst-val-sm">00h:00m</span>
+        </div>
+      </div>
+
+      <!-- Pillar 2 badge -->
+      <div class="nv-pillar-badge">Pillar 2 of 3 — Cockpit Command Companion</div>
+
+      <!-- Soul AI overlay — animates in after scene loads -->
+      <div class="soul-hmi-overlay" id="soul-hmi-overlay">
+        <canvas id="soul-mini-orb" class="soul-mini-orb"></canvas>
+        <div class="soul-hmi-panel">
+          <div class="soul-hmi-label">SOUL AI</div>
+          <div id="soul-hmi-text" class="soul-hmi-text"></div>
+        </div>
+      </div>
+
+    </div><!-- /navapp -->
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 5 — Pillar 3: Flight Intelligence & Coaching
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene" id="scene-5">
+    <div class="scene-content journey-layout">
+
+      <div class="journey-copy">
+        <div class="pillar-num-badge">Pillar 3 of 3</div>
+        <div class="journey-tag">Simulator + Telemetry — Flight Intelligence</div>
+        <h2>Every flight<br>makes you better.</h2>
+        <p>Soul AI ingests telemetry from MSFS, X-Plane, and Embention. Every session updates a persistent pilot profile and generates coaching feedback.</p>
+        <div class="journey-stats" style="margin-top:20px">
+          <div class="jstat"><span class="jstat-val">14</span><span class="jstat-lbl">sessions recorded</span></div>
+          <div class="jstat"><span class="jstat-val">42:07</span><span class="jstat-lbl">this session</span></div>
+          <div class="jstat"><span class="jstat-val">+12%</span><span class="jstat-lbl">smoother vs last</span></div>
+        </div>
+      </div>
+
+      <!-- Debrief panel -->
+      <div class="debrief-panel">
+        <div class="debrief-top">
+          <span class="debrief-title">SESSION DEBRIEF</span>
+          <span class="debrief-src">MSFS · H1-X PROFILE</span>
+        </div>
+
+        <div class="debrief-metrics" id="debrief-metrics">
+          <div class="dm-row" data-pct="83" data-color="good">
+            <div class="dm-label">Altitude stability</div>
+            <div class="dm-bar-wrap"><div class="dm-bar-fill"></div></div>
+            <div class="dm-val">83%</div>
+          </div>
+          <div class="dm-row" data-pct="72" data-color="good">
+            <div class="dm-label">Roll smoothness</div>
+            <div class="dm-bar-wrap"><div class="dm-bar-fill"></div></div>
+            <div class="dm-val">+12% ▲</div>
+          </div>
+          <div class="dm-row" data-pct="45" data-color="warn">
+            <div class="dm-label">Approach consistency</div>
+            <div class="dm-bar-wrap"><div class="dm-bar-fill"></div></div>
+            <div class="dm-val">+4.1° ↓</div>
+          </div>
+          <div class="dm-row" data-pct="89" data-color="good">
+            <div class="dm-label">Route tracking</div>
+            <div class="dm-bar-wrap"><div class="dm-bar-fill"></div></div>
+            <div class="dm-val">89%</div>
+          </div>
+        </div>
+
+        <div class="debrief-divider"></div>
+
+        <div class="debrief-soul-section">
+          <div class="debrief-soul-label">
+            <span class="dsoul-dot"></span>SOUL AI COACHING
+          </div>
+          <div id="debrief-soul-text" class="debrief-soul-text"></div>
+        </div>
+
+        <div class="debrief-rec" id="debrief-rec">
+          <span class="rec-label">RECOMMENDED</span>
+          <span class="rec-text">Stabilised approaches · crosswind 15 kt</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCENE 6 — Roadmap
+  ═══════════════════════════════════════════════════════ -->
+  <section class="scene" id="scene-6">
+    <div class="scene-content roadmap-content">
+
+      <div class="section-header">
+        <h2>The journey ahead.</h2>
+        <p>Five phases from prototype to integrated demo. Phase 0 is done.</p>
+      </div>
+
+      <div class="roadmap-wrap">
+        <div class="roadmap-spine"></div>
+
+        <div class="phase-node done" data-idx="0">
+          <div class="ph-dot"></div>
+          <div class="ph-body">
+            <div class="ph-num">Phase 0</div>
+            <div class="ph-name">Repo Foundation</div>
+            <div class="ph-desc">Docs, schemas, examples — complete</div>
+            <div class="ph-badge done">✓ COMPLETE</div>
+          </div>
+        </div>
+
+        <div class="phase-node" data-idx="1">
+          <div class="ph-dot"></div>
+          <div class="ph-body">
+            <div class="ph-num">Phase 1</div>
+            <div class="ph-name">NavApp Voice Brain</div>
+            <div class="ph-desc">Text → intent → validated MQTT command</div>
+          </div>
+        </div>
+
+        <div class="phase-node" data-idx="2">
+          <div class="ph-dot"></div>
+          <div class="ph-body">
+            <div class="ph-num">Phase 2</div>
+            <div class="ph-name">Mobile Soul</div>
+            <div class="ph-desc">Morning briefing + remote cabin prep</div>
+          </div>
+        </div>
+
+        <div class="phase-node" data-idx="3">
+          <div class="ph-dot"></div>
+          <div class="ph-body">
+            <div class="ph-num">Phase 3</div>
+            <div class="ph-name">Fly Plan Engine</div>
+            <div class="ph-desc">Calendar → structured fly plan</div>
+          </div>
+        </div>
+
+        <div class="phase-node" data-idx="4">
+          <div class="ph-dot"></div>
+          <div class="ph-body">
+            <div class="ph-num">Phase 4</div>
+            <div class="ph-name">Simulator Telemetry</div>
+            <div class="ph-desc">Pilot profile + session debrief</div>
+          </div>
+        </div>
+
+        <div class="phase-node" data-idx="5">
+          <div class="ph-dot"></div>
+          <div class="ph-body">
+            <div class="ph-num">Phase 5</div>
+            <div class="ph-name">Integrated Demo</div>
+            <div class="ph-desc">Mobile → cockpit → telemetry → debrief</div>
+          </div>
+        </div>
+
+      </div>
+
+      <blockquote id="closing-quote" class="closing-quote">
+        "Soul AI makes Doroni feel like a living intelligent mobility ecosystem,<br>
+        not just an aircraft with a voice assistant."
+      </blockquote>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PERSISTENT UI
+  ═══════════════════════════════════════════════════════ -->
+  <div id="scene-counter" class="ui scene-counter">1 / 7</div>
+  <div id="sound-btn"     class="ui sound-btn"    title="Toggle ambient sound [S]">🔇</div>
+  <div id="voice-btn"     class="ui voice-btn"    title="Toggle voice [V]">🎙</div>
+  <div id="nav-hint"      class="ui nav-hint">Press <kbd>→</kbd> to continue</div>
+
+  <!-- Speaker Notes -->
+  <div id="notes-overlay" class="notes-overlay">
+    <div class="notes-panel">
+      <div class="notes-eyebrow">Speaker Notes</div>
+      <div id="notes-body" class="notes-body"></div>
+      <div class="notes-dismiss">Press <kbd>N</kbd> to close</div>
+    </div>
+  </div>
+
+  <!-- Boot hint -->
+  <div id="boot-hint" class="boot-hint">Press F11 for best experience</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

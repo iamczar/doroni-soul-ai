@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/mqtt/lighting",
+  "title": "Lighting MQTT Messages",
+  "description": "JSON schemas for Soul AI cabin lighting MQTT messages",
+  "definitions": {
+    "envelope": {
+      "type": "object",
+      "required": ["source", "target", "message_id", "correlation_id", "timestamp", "risk_level", "payload"],
+      "properties": {
+        "source": { "type": "string", "const": "soul_ai" },
+        "target": { "type": "string", "enum": ["navapp", "vehicle"] },
+        "message_id": { "type": "string" },
+        "correlation_id": { "type": "string", "format": "uuid" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "payload": { "type": "object" }
+      }
+    },
+    "rgb_color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "RGB hex color code"
+    },
+    "brightness_percent": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Brightness as a percentage"
+    },
+    "lighting_set_ambient_rgb": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "lighting_set_ambient_rgb" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["rgb"],
+              "properties": {
+                "rgb": { "$ref": "#/definitions/rgb_color" },
+                "brightness_percent": { "$ref": "#/definitions/brightness_percent" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lighting_set_ambient_brightness": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "lighting_set_ambient_brightness" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["brightness_percent"],
+              "properties": {
+                "brightness_percent": { "$ref": "#/definitions/brightness_percent" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lighting_set_duct_rgb": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "lighting_set_duct_rgb" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["rgb"],
+              "properties": {
+                "rgb": { "$ref": "#/definitions/rgb_color" },
+                "brightness_percent": { "$ref": "#/definitions/brightness_percent" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lighting_set_duct_brightness": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "lighting_set_duct_brightness" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["brightness_percent"],
+              "properties": {
+                "brightness_percent": { "$ref": "#/definitions/brightness_percent" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lighting_set_knob_light_state": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "lighting_set_knob_light_state" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["enabled"],
+              "properties": {
+                "enabled": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "lighting_get_status": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "lighting_get_status" },
+            "risk_level": { "const": 0 },
+            "payload": { "type": "object", "maxProperties": 0 }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/domain/pilot_profile",
+  "title": "Pilot Profile",
+  "description": "Soul AI pilot profile domain model — persistent skill and history record for a pilot",
+  "type": "object",
+  "required": ["user_id", "total_sessions"],
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "total_sessions": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of recorded sessions (real + simulator)"
+    },
+    "total_flight_time_minutes": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total real flight time in minutes"
+    },
+    "simulator_time_minutes": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total simulator session time in minutes"
+    },
+    "skill_scores": {
+      "type": "object",
+      "description": "Skill metric scores (0.0–1.0 scale, higher is better)",
+      "properties": {
+        "smoothness_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Control input smoothness — penalizes rapid or jerky inputs"
+        },
+        "approach_consistency_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Consistency of approach path across sessions"
+        },
+        "altitude_stability_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Proportion of cruise time within ±50ft of target altitude"
+        },
+        "route_tracking_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Accuracy of route tracking — penalizes lateral deviation"
+        }
+      }
+    },
+    "tendency_flags": {
+      "type": "object",
+      "description": "Detected behavioural tendencies",
+      "properties": {
+        "overcorrection_tendency": {
+          "type": "boolean",
+          "description": "True if pilot frequently overcorrects on inputs"
+        },
+        "steep_approach_tendency": {
+          "type": "boolean",
+          "description": "True if pilot consistently approaches steeper than standard"
+        },
+        "altitude_creep_tendency": {
+          "type": "boolean",
+          "description": "True if pilot tends to drift from assigned altitude"
+        }
+      }
+    },
+    "session_history": {
+      "type": "array",
+      "description": "Summary records for completed sessions",
+      "items": {
+        "type": "object",
+        "required": ["session_id", "date", "source", "simulator_or_real"],
+        "properties": {
+          "session_id": { "type": "string" },
+          "date": { "type": "string", "format": "date" },
+          "source": { "type": "string", "enum": ["msfs", "xplane", "embention", "real"] },
+          "simulator_or_real": { "type": "string", "enum": ["simulator", "real"] },
+          "duration_minutes": { "type": "number" },
+          "smoothness_score": { "type": "number" },
+          "altitude_stability_score": { "type": "number" },
+          "debrief_id": { "type": "string" }
+        }
+      }
+    },
+    "recent_improvements": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Human-readable notes on recent performance improvements"
+    },
+    "recommended_training": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["focus_area", "description"],
+        "properties": {
+          "focus_area": { "type": "string" },
+          "description": { "type": "string" },
+          "priority": { "type": "string", "enum": ["high", "medium", "low"] }
+        }
+      }
+    }
+  }
+}

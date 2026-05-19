@@ -1,0 +1,29 @@
+{
+  "source": "simulator_bridge",
+  "target": "cloud",
+  "message_id": "telemetry_frame",
+  "correlation_id": "e6f7a8b9-c0d1-2345-ef01-234567890123",
+  "timestamp": "2026-05-19T20:05:32.123Z",
+  "risk_level": 0,
+  "payload": {
+    "session_id": "sim-session-a1b2c3",
+    "timestamp": "2026-05-19T20:05:32.123Z",
+    "lat": 25.7617,
+    "lon": -80.1918,
+    "altitude_ft": 1000,
+    "ground_speed_kts": 85,
+    "airspeed_kts": 87,
+    "pitch_deg": 2.1,
+    "roll_deg": -0.8,
+    "yaw_deg": 0.3,
+    "heading_deg": 185.0,
+    "vertical_speed_fpm": 0,
+    "joystick_x": -0.04,
+    "joystick_y": 0.02,
+    "throttle_percent": 72,
+    "battery_percent": 78,
+    "flight_phase": "cruise",
+    "route_deviation_nm": 0.1,
+    "altitude_deviation_ft": 12
+  }
+}

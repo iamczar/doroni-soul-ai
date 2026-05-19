@@ -1,0 +1,11 @@
+{
+  "source": "soul_ai",
+  "target": "navapp",
+  "message_id": "mission_send_to_cockpit",
+  "correlation_id": "c4d5e6f7-a8b9-0123-cdef-012345678902",
+  "timestamp": "2026-05-19T09:20:00Z",
+  "risk_level": 2,
+  "payload": {
+    "mission_id": "mission-uuid-001"
+  }
+}

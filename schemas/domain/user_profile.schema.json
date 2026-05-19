@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/domain/user_profile",
+  "title": "User Profile",
+  "description": "Soul AI user profile domain model",
+  "type": "object",
+  "required": ["user_id", "name"],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Unique user identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "User display name"
+    },
+    "preferred_temperature_celsius": {
+      "type": "number",
+      "minimum": 16,
+      "maximum": 30,
+      "description": "User's preferred cabin temperature"
+    },
+    "preferred_lighting_mode": {
+      "type": "object",
+      "properties": {
+        "ambient_rgb": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "ambient_brightness_percent": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "duct_rgb": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "duct_brightness_percent": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "knob_lights_enabled": { "type": "boolean" }
+      }
+    },
+    "saved_locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "coordinates"],
+        "properties": {
+          "name": { "type": "string" },
+          "coordinates": {
+            "type": "object",
+            "required": ["lat", "lon"],
+            "properties": {
+              "lat": { "type": "number" },
+              "lon": { "type": "number" }
+            }
+          },
+          "is_home": { "type": "boolean" },
+          "is_work": { "type": "boolean" }
+        }
+      }
+    },
+    "notification_preferences": {
+      "type": "object",
+      "properties": {
+        "morning_briefing_enabled": { "type": "boolean" },
+        "morning_briefing_time": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "departure_reminder_enabled": { "type": "boolean" },
+        "departure_reminder_minutes_before": { "type": "integer", "minimum": 5, "maximum": 60 },
+        "post_flight_debrief_enabled": { "type": "boolean" }
+      }
+    },
+    "calendar_connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["provider", "connected"],
+        "properties": {
+          "provider": { "type": "string", "enum": ["google", "outlook", "apple"] },
+          "connected": { "type": "boolean" },
+          "account_label": { "type": "string" }
+        }
+      }
+    },
+    "privacy_preferences": {
+      "type": "object",
+      "properties": {
+        "telemetry_recording_enabled": { "type": "boolean" },
+        "location_history_enabled": { "type": "boolean" },
+        "share_data_for_improvement": { "type": "boolean" }
+      }
+    },
+    "assistant_voice_style": {
+      "type": "string",
+      "enum": ["concise", "conversational", "detailed"],
+      "description": "How much Soul AI elaborates in its responses"
+    },
+    "mobility_preferences": {
+      "type": "object",
+      "properties": {
+        "default_fly_vs_drive_threshold_minutes": {
+          "type": "integer",
+          "description": "Minimum time saving before Soul recommends flying over driving"
+        },
+        "prefer_direct_routes": { "type": "boolean" }
+      }
+    },
+    "linked_aircraft_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Aircraft IDs this user has access to"
+    }
+  }
+}

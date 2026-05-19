@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/domain/telemetry_frame",
+  "title": "Telemetry Frame",
+  "description": "A single telemetry data point captured during a flight or simulator session",
+  "type": "object",
+  "required": ["frame_id", "session_id", "timestamp", "lat", "lon", "altitude_ft", "heading_deg"],
+  "properties": {
+    "frame_id": {
+      "type": "string",
+      "description": "Unique identifier for this frame"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Parent session identifier"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Frame capture time in UTC"
+    },
+    "lat": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "lon": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "altitude_ft": {
+      "type": "number",
+      "description": "Altitude above sea level in feet"
+    },
+    "ground_speed_kts": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Ground speed in knots"
+    },
+    "airspeed_kts": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Indicated airspeed in knots"
+    },
+    "pitch_deg": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90,
+      "description": "Pitch angle in degrees (positive = nose up)"
+    },
+    "roll_deg": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180,
+      "description": "Roll angle in degrees (positive = right wing down)"
+    },
+    "yaw_deg": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180,
+      "description": "Yaw rate in degrees per second"
+    },
+    "heading_deg": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 360,
+      "description": "Magnetic heading in degrees"
+    },
+    "vertical_speed_fpm": {
+      "type": "number",
+      "description": "Vertical speed in feet per minute (positive = climbing)"
+    },
+    "joystick_x": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "Joystick lateral input (-1 = full left, 1 = full right)"
+    },
+    "joystick_y": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "Joystick longitudinal input (-1 = full back, 1 = full forward)"
+    },
+    "throttle_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Throttle position as a percentage"
+    },
+    "battery_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "flight_phase": {
+      "type": "string",
+      "enum": ["ground", "departure", "climb", "cruise", "descent", "approach", "landing"],
+      "description": "Detected or declared flight phase"
+    },
+    "route_deviation_nm": {
+      "type": "number",
+      "description": "Lateral deviation from planned route in nautical miles"
+    },
+    "altitude_deviation_ft": {
+      "type": "number",
+      "description": "Deviation from target altitude in feet"
+    }
+  }
+}

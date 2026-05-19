@@ -1,0 +1,15 @@
+{
+  "source": "soul_ai",
+  "target": "navapp",
+  "message_id": "nav_set_destination",
+  "correlation_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "timestamp": "2026-05-19T09:28:00Z",
+  "risk_level": 2,
+  "payload": {
+    "destination_name": "Doroni HQ",
+    "coordinates": {
+      "lat": 25.7900,
+      "lon": -80.1300
+    }
+  }
+}

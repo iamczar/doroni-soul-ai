@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/mqtt/pilot_profile",
+  "title": "Pilot Profile MQTT Messages",
+  "description": "JSON schemas for Soul AI pilot profile MQTT messages",
+  "definitions": {
+    "envelope": {
+      "type": "object",
+      "required": ["source", "target", "message_id", "correlation_id", "timestamp", "risk_level", "payload"],
+      "properties": {
+        "source": { "type": "string", "const": "soul_ai" },
+        "target": { "type": "string", "enum": ["cloud"] },
+        "message_id": { "type": "string" },
+        "correlation_id": { "type": "string", "format": "uuid" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "payload": { "type": "object" }
+      }
+    },
+    "pilot_profile_get": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "pilot_profile_get" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["user_id"],
+              "properties": {
+                "user_id": { "type": "string" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "pilot_profile_update": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "pilot_profile_update" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["user_id", "session_id"],
+              "properties": {
+                "user_id": { "type": "string" },
+                "session_id": { "type": "string" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "pilot_profile_get_debrief": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "pilot_profile_get_debrief" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["session_id"],
+              "properties": {
+                "session_id": { "type": "string" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "pilot_profile_get_training_recommendations": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "pilot_profile_get_training_recommendations" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["user_id"],
+              "properties": {
+                "user_id": { "type": "string" }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

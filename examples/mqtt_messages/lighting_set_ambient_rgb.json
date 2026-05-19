@@ -1,0 +1,12 @@
+{
+  "source": "soul_ai",
+  "target": "navapp",
+  "message_id": "lighting_set_ambient_rgb",
+  "correlation_id": "b3c4d5e6-f7a8-9012-bcde-f12345678901",
+  "timestamp": "2026-05-19T09:33:45Z",
+  "risk_level": 0,
+  "payload": {
+    "rgb": "#0000FF",
+    "brightness_percent": 70
+  }
+}

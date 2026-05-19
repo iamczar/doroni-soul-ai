@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/mqtt/mission",
+  "title": "Mission MQTT Messages",
+  "description": "JSON schemas for Soul AI mission and fly plan MQTT messages",
+  "definitions": {
+    "envelope": {
+      "type": "object",
+      "required": ["source", "target", "message_id", "correlation_id", "timestamp", "risk_level", "payload"],
+      "properties": {
+        "source": { "type": "string", "const": "soul_ai" },
+        "target": { "type": "string", "enum": ["navapp", "cloud"] },
+        "message_id": { "type": "string" },
+        "correlation_id": { "type": "string", "format": "uuid" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "payload": { "type": "object" }
+      }
+    },
+    "mission_create_fly_plan": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "mission_create_fly_plan" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["user_id", "aircraft_id"],
+              "properties": {
+                "user_id": { "type": "string" },
+                "aircraft_id": { "type": "string" },
+                "calendar_event_ids": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "destinations": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 1
+                },
+                "requested_departure_time": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mission_update_fly_plan": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "mission_update_fly_plan" },
+            "risk_level": { "const": 2 },
+            "payload": {
+              "type": "object",
+              "required": ["mission_id", "updates"],
+              "properties": {
+                "mission_id": { "type": "string" },
+                "updates": { "type": "object" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mission_send_to_cockpit": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "mission_send_to_cockpit" },
+            "risk_level": { "const": 2 },
+            "payload": {
+              "type": "object",
+              "required": ["mission_id"],
+              "properties": {
+                "mission_id": { "type": "string" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mission_get_briefing": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "mission_get_briefing" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "mission_id": { "type": "string" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mission_get_status": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "mission_get_status" },
+            "risk_level": { "const": 0 },
+            "payload": { "type": "object", "maxProperties": 0 }
+          }
+        }
+      ]
+    }
+  }
+}

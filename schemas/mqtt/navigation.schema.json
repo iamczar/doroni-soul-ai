@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/mqtt/navigation",
+  "title": "Navigation MQTT Messages",
+  "description": "JSON schemas for Soul AI navigation and map control MQTT messages",
+  "definitions": {
+    "envelope": {
+      "type": "object",
+      "required": ["source", "target", "message_id", "correlation_id", "timestamp", "risk_level", "payload"],
+      "properties": {
+        "source": { "type": "string", "const": "soul_ai" },
+        "target": { "type": "string", "enum": ["navapp"] },
+        "message_id": { "type": "string" },
+        "correlation_id": { "type": "string", "format": "uuid" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "payload": { "type": "object" }
+      }
+    },
+    "coordinates": {
+      "type": "object",
+      "required": ["lat", "lon"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lon": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+    "nav_set_destination": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "nav_set_destination" },
+            "risk_level": { "const": 2 },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "destination_name": {
+                  "type": "string",
+                  "description": "Human-readable destination name"
+                },
+                "coordinates": { "$ref": "#/definitions/coordinates" }
+              },
+              "anyOf": [
+                { "required": ["destination_name"] },
+                { "required": ["coordinates"] }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nav_set_route": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "nav_set_route" },
+            "risk_level": { "const": 2 },
+            "payload": {
+              "type": "object",
+              "required": ["route_id", "waypoints"],
+              "properties": {
+                "route_id": { "type": "string" },
+                "waypoints": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "allOf": [
+                      { "$ref": "#/definitions/coordinates" },
+                      {
+                        "properties": {
+                          "name": { "type": "string" }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "nav_get_eta": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "nav_get_eta" },
+            "risk_level": { "const": 0 },
+            "payload": { "type": "object", "maxProperties": 0 }
+          }
+        }
+      ]
+    },
+    "nav_get_current_route": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "nav_get_current_route" },
+            "risk_level": { "const": 0 },
+            "payload": { "type": "object", "maxProperties": 0 }
+          }
+        }
+      ]
+    },
+    "nav_zoom_control": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "nav_zoom_control" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["action"],
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "enum": ["zoom_in", "zoom_out", "zoom_to_level"]
+                },
+                "level": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 20,
+                  "description": "Required when action is zoom_to_level"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "nav_set_map_mode": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "nav_set_map_mode" },
+            "risk_level": { "const": 0 },
+            "payload": {
+              "type": "object",
+              "required": ["map_mode"],
+              "properties": {
+                "map_mode": {
+                  "type": "string",
+                  "enum": ["standard", "satellite", "terrain"]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/domain/mission",
+  "title": "Mission / Fly Plan",
+  "description": "Soul AI mission and fly plan domain model",
+  "type": "object",
+  "required": ["mission_id", "user_id", "aircraft_id", "status"],
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "description": "Unique mission identifier"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "aircraft_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "confirmed", "sent_to_cockpit", "active", "completed", "cancelled"],
+      "description": "Current mission lifecycle state"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "calendar_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event_id", "title", "start_time", "location"],
+        "properties": {
+          "event_id": { "type": "string" },
+          "title": { "type": "string" },
+          "start_time": { "type": "string", "format": "date-time" },
+          "end_time": { "type": "string", "format": "date-time" },
+          "location": { "type": "string" }
+        }
+      }
+    },
+    "destinations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "coordinates": {
+            "type": "object",
+            "properties": {
+              "lat": { "type": "number" },
+              "lon": { "type": "number" }
+            }
+          },
+          "arrival_time": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "route_legs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "mode"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "mode": { "type": "string", "enum": ["fly", "drive", "walk"] },
+          "distance_nm": { "type": "number" },
+          "estimated_duration_minutes": { "type": "number" },
+          "waypoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lat": { "type": "number" },
+                "lon": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "fly_vs_drive_decision": {
+      "type": "object",
+      "properties": {
+        "recommended_mode": { "type": "string", "enum": ["fly", "drive"] },
+        "fly_time_minutes": { "type": "number" },
+        "drive_time_minutes": { "type": "number" },
+        "time_saving_minutes": { "type": "number" },
+        "reasoning": { "type": "string" }
+      }
+    },
+    "departure_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "arrival_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "weather_summary": {
+      "type": "object",
+      "properties": {
+        "conditions": { "type": "string" },
+        "wind_speed_kts": { "type": "number" },
+        "wind_direction_deg": { "type": "number" },
+        "visibility_nm": { "type": "number" },
+        "flight_conditions": { "type": "string", "enum": ["VMC", "IMC", "marginal"] },
+        "source": { "type": "string" }
+      }
+    },
+    "airspace_summary": {
+      "type": "object",
+      "properties": {
+        "airspace_classes": { "type": "array", "items": { "type": "string" } },
+        "notams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "description": { "type": "string" },
+              "affects_route": { "type": "boolean" }
+            }
+          }
+        },
+        "restrictions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "description"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["info", "caution", "warning"] },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Soul AI's overall mission recommendation summary"
+    },
+    "cockpit_handoff_state": {
+      "type": "string",
+      "enum": ["not_sent", "sent", "acknowledged", "loaded"],
+      "description": "Whether this mission has been transferred to the cockpit NavApp"
+    }
+  }
+}

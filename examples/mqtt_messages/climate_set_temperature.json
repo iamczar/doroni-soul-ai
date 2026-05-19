@@ -1,0 +1,11 @@
+{
+  "source": "soul_ai",
+  "target": "navapp",
+  "message_id": "climate_set_temperature",
+  "correlation_id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "timestamp": "2026-05-19T09:25:00Z",
+  "risk_level": 1,
+  "payload": {
+    "temperature_celsius": 21
+  }
+}

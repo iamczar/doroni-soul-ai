@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/mqtt/climate",
+  "title": "Climate MQTT Messages",
+  "description": "JSON schemas for Soul AI climate control MQTT messages",
+  "definitions": {
+    "envelope": {
+      "type": "object",
+      "required": ["source", "target", "message_id", "correlation_id", "timestamp", "risk_level", "payload"],
+      "properties": {
+        "source": { "type": "string", "const": "soul_ai" },
+        "target": { "type": "string", "enum": ["navapp", "vehicle"] },
+        "message_id": { "type": "string" },
+        "correlation_id": { "type": "string", "format": "uuid" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "payload": { "type": "object" }
+      }
+    },
+    "climate_set_temperature": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "climate_set_temperature" },
+            "risk_level": { "const": 1 },
+            "payload": {
+              "type": "object",
+              "required": ["temperature_celsius"],
+              "properties": {
+                "temperature_celsius": {
+                  "type": "number",
+                  "minimum": 16,
+                  "maximum": 30,
+                  "description": "Target cabin temperature in Celsius"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "climate_adjust_temperature": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "climate_adjust_temperature" },
+            "risk_level": { "const": 1 },
+            "payload": {
+              "type": "object",
+              "required": ["delta_celsius"],
+              "properties": {
+                "delta_celsius": {
+                  "type": "number",
+                  "minimum": -10,
+                  "maximum": 10,
+                  "description": "Relative temperature change in Celsius (negative = cooler)"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "climate_set_fan_speed": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "climate_set_fan_speed" },
+            "risk_level": { "const": 1 },
+            "payload": {
+              "type": "object",
+              "required": ["fan_speed_percent"],
+              "properties": {
+                "fan_speed_percent": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "Fan speed as a percentage"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "climate_get_status": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "climate_get_status" },
+            "risk_level": { "const": 0 },
+            "payload": { "type": "object", "maxProperties": 0 }
+          }
+        }
+      ]
+    }
+  }
+}

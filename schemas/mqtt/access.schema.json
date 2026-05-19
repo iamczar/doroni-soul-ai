@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://doroni.com/soul-ai/schemas/mqtt/access",
+  "title": "Access MQTT Messages",
+  "description": "JSON schemas for Soul AI door lock/access MQTT messages",
+  "definitions": {
+    "envelope": {
+      "type": "object",
+      "required": ["source", "target", "message_id", "correlation_id", "timestamp", "risk_level", "payload"],
+      "properties": {
+        "source": { "type": "string", "const": "soul_ai" },
+        "target": { "type": "string", "enum": ["navapp", "vehicle"] },
+        "message_id": { "type": "string" },
+        "correlation_id": { "type": "string", "format": "uuid" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "payload": { "type": "object" }
+      }
+    },
+    "access_set_lock_state": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "access_set_lock_state" },
+            "risk_level": { "const": 2 },
+            "payload": {
+              "type": "object",
+              "required": ["lock_state"],
+              "properties": {
+                "lock_state": {
+                  "type": "string",
+                  "enum": ["locked", "unlocked"],
+                  "description": "Desired door lock state"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "access_get_lock_state": {
+      "allOf": [
+        { "$ref": "#/definitions/envelope" },
+        {
+          "properties": {
+            "message_id": { "const": "access_get_lock_state" },
+            "risk_level": { "const": 0 },
+            "payload": { "type": "object", "maxProperties": 0 }
+          }
+        }
+      ]
+    }
+  }
+}
