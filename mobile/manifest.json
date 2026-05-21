@@ -1,0 +1,13 @@
+{
+  "name": "Doroni H1 X",
+  "short_name": "Doroni",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#04080d",
+  "theme_color": "#04080d",
+  "start_url": ".",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

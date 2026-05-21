@@ -1,0 +1,187 @@
+/* Doroni H1 X — design tokens
+   Inferred from HMI: dark cinematic, cool blue-blacks, white type with
+   light-weight large numerals, orange + cyan accents, mono telemetry. */
+
+:root {
+  /* surface */
+  --bg-0:        #04080d;          /* deepest — outside the panels */
+  --bg-1:        #0a1119;          /* primary canvas */
+  --bg-2:        #0f1922;          /* raised panel */
+  --bg-3:        #15212c;          /* highest card / sheet */
+  --bg-glass:    rgba(255,255,255,0.03);
+  --bg-glass-2:  rgba(255,255,255,0.06);
+
+  /* lines */
+  --line-1:      rgba(180,210,235,0.07);
+  --line-2:      rgba(180,210,235,0.12);
+  --line-strong: rgba(180,210,235,0.22);
+
+  /* text */
+  --t-1:         #f4f7fb;          /* primary white */
+  --t-2:         #a4b3c4;          /* secondary */
+  --t-3:         #5d6e80;          /* tertiary / disabled */
+  --t-cyan:      #7ccae8;          /* HMI label cyan */
+  --t-cyan-d:    #4d9cbe;
+
+  /* accents */
+  --orange:      #ff6b1a;
+  --orange-d:    #d65512;
+  --orange-soft: rgba(255,107,26,0.14);
+
+  --cyan:        #5ec0e8;
+  --cyan-soft:   rgba(94,192,232,0.14);
+
+  --green:       #4ec97e;
+  --green-soft:  rgba(78,201,126,0.14);
+
+  --amber:       #ffb547;
+  --amber-soft:  rgba(255,181,71,0.14);
+
+  --red:         #ff4d57;
+  --red-soft:    rgba(255,77,87,0.14);
+
+  /* type */
+  --f-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* normalize within the app shell */
+.doroni * { box-sizing: border-box; }
+.doroni {
+  font-family: var(--f-sans);
+  color: var(--t-1);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01' 1, 'cv11' 1, 'tnum' 1;
+  letter-spacing: -0.005em;
+}
+
+.doroni .label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t-cyan);
+  font-weight: 500;
+}
+.doroni .label-amber { color: var(--amber); }
+.doroni .label-orange { color: var(--orange); }
+
+.doroni .num {
+  font-family: var(--f-sans);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+.doroni .mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.doroni button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.doroni hr {
+  border: 0;
+  border-top: 1px solid var(--line-1);
+  margin: 0;
+}
+
+/* density */
+.d-dense   { --pad-x: 14px; --pad-y: 10px; --gap: 8px;  --r: 10px; --num-xl: 56px; --num-l: 36px; }
+.d-spacious{ --pad-x: 20px; --pad-y: 16px; --gap: 14px; --r: 16px; --num-xl: 72px; --num-l: 48px; }
+
+/* utility */
+.doroni .card {
+  background: var(--bg-2);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r);
+  padding: var(--pad-y) var(--pad-x);
+}
+
+.doroni .row { display: flex; align-items: center; gap: var(--gap); }
+.doroni .col { display: flex; flex-direction: column; gap: var(--gap); }
+
+.doroni .chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.doroni .chip-green { background: var(--green-soft); color: var(--green); }
+.doroni .chip-orange { background: var(--orange-soft); color: var(--orange); }
+.doroni .chip-cyan { background: var(--cyan-soft); color: var(--cyan); }
+.doroni .chip-amber { background: var(--amber-soft); color: var(--amber); }
+.doroni .chip-line { border: 1px solid var(--line-strong); color: var(--t-2); }
+
+/* dot */
+.doroni .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.doroni .dot-green { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.doroni .dot-orange{ background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+.doroni .dot-amber { background: var(--amber); }
+.doroni .dot-cyan  { background: var(--cyan); }
+
+/* progress bar */
+.doroni .bar {
+  height: 4px;
+  background: var(--line-1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.doroni .bar > i {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+  border-radius: 2px;
+}
+
+/* tab bar */
+.doroni .tabbar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--line-1);
+  background: rgba(4,8,13,0.86);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 6px 4px 8px;
+}
+.doroni .tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px;
+  padding: 6px 0 2px;
+  color: var(--t-3);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+.doroni .tab.active { color: var(--t-1); }
+.doroni .tab.active .tab-icon { color: var(--orange); }
+.doroni .tab-icon { width: 22px; height: 22px; display:flex; align-items:center; justify-content:center; }
+
+/* hide scrollbars in mock for cleanliness */
+.doroni ::-webkit-scrollbar { width: 0; height: 0; }
+
+/* keyframes */
+@keyframes pulse-orange {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,26,0.5); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,107,26,0); }
+}
+.doroni .pulse-orange { animation: pulse-orange 1.8s infinite; }
+
+@keyframes spin-slow { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+.doroni .spin-slow { animation: spin-slow 6s linear infinite; }
+
+@keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+/* design-canvas chrome on dark bg */
+body { background: #060a10; }
+.design-canvas, dc-canvas, .dc-canvas { color-scheme: dark; }
