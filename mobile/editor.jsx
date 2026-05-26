@@ -20,6 +20,7 @@ function EditorScreen({ ctx, nav, tweaks }) {
   const [waypoints, setWaypoints] = React.useState(ctx.waypoints.length ? ctx.waypoints : SEED_WAYPOINTS);
   const [selected, setSelected] = React.useState(null);
   const [adding, setAdding] = React.useState(false);
+  const [lpDialog, setLpDialog] = React.useState(null);
 
   React.useEffect(()=>{ ctx.setWaypoints(waypoints); }, [waypoints]);
 
@@ -27,6 +28,11 @@ function EditorScreen({ ctx, nav, tweaks }) {
     i === 0 ? 0 : acc + legMiles(waypoints[i-1], w), 0);
   const etE = Math.round(total / 80 * 60);
   const battUse = Math.round(total * 0.9);
+
+  const onMapLongPress = ({ lat, lng }) => {
+    if (adding) return;
+    setLpDialog({ lat, lng });
+  };
 
   const onMapTap = ({ lat, lng }) => {
     const next = [...waypoints];
@@ -127,6 +133,7 @@ function EditorScreen({ ctx, nav, tweaks }) {
             setAdding={setAdding}
             rangeMiles={Math.round(Math.min(100, Math.max(0, (ctx.battery - 20) / 0.8)))}
             onDragWp={(id, lat, lng) => setWaypoints(ws => ws.map(w => w.id === id ? {...w, lat, lng} : w))}
+            onLongPress={onMapLongPress}
           />
         )}
         {tab === 'profile' && <ProfileTab waypoints={waypoints}/>}
@@ -136,6 +143,57 @@ function EditorScreen({ ctx, nav, tweaks }) {
         {/* edit-waypoint sheet */}
         {sel && tab === 'map' && (
           <WaypointSheet wp={sel} onChange={updateSel} onClose={()=>setSelected(null)} onDelete={sel.kind==='wp' ? deleteSel : null}/>
+        )}
+
+        {/* long-press add-waypoint confirm dialog */}
+        {lpDialog && (
+          <div
+            onClick={() => setLpDialog(null)}
+            style={{
+              position: 'absolute', inset: 0, zIndex: 120,
+              background: 'rgba(0,0,0,0.45)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              animation: 'lpFadeIn 0.15s ease-out',
+            }}
+          >
+            <style>{`@keyframes lpFadeIn { from { opacity: 0 } to { opacity: 1 } }`}</style>
+            <div
+              onClick={e => e.stopPropagation()}
+              style={{
+                background: 'var(--bg-2)',
+                border: '1px solid var(--line-strong)',
+                borderRadius: 14,
+                boxShadow: '0 12px 40px rgba(0,0,0,0.6)',
+                padding: '20px 20px 16px',
+                width: 260,
+                display: 'flex', flexDirection: 'column', gap: 16,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <IconWaypoint size={20} style={{ color: 'var(--orange)', flexShrink: 0 }}/>
+                <span style={{ fontSize: 15, fontWeight: 500 }}>Add a waypoint here?</span>
+              </div>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button
+                  onClick={() => { onMapTap({ lat: lpDialog.lat, lng: lpDialog.lng }); setLpDialog(null); }}
+                  style={{
+                    flex: 1, padding: '10px 0', borderRadius: 10,
+                    background: 'var(--orange)', color: '#04080d',
+                    fontSize: 14, fontWeight: 600,
+                  }}
+                >Yes</button>
+                <button
+                  onClick={() => setLpDialog(null)}
+                  style={{
+                    flex: 1, padding: '10px 0', borderRadius: 10,
+                    background: 'var(--bg-glass)', color: 'var(--t-2)',
+                    border: '1px solid var(--line-1)',
+                    fontSize: 14, fontWeight: 500,
+                  }}
+                >No</button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
 

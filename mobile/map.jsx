@@ -205,21 +205,23 @@ function addMapSources(map) {
 }
 
 // ─── Interactive editor map ────────────────────────────────────────────────
-function MapView({ waypoints, selected, setSelected, onMapTap, adding, setAdding, onDragWp, rangeMiles }) {
+function MapView({ waypoints, selected, setSelected, onMapTap, adding, setAdding, onDragWp, rangeMiles, onLongPress }) {
   const containerRef  = React.useRef(null);
   const mlRef         = React.useRef(null);
   const markersRef    = React.useRef({});
   const [mapLoaded, setMapLoaded] = React.useState(false);
 
   // Always-current refs so map event handlers never see stale closures
-  const addingRef    = React.useRef(adding);
-  const onMapTapRef  = React.useRef(onMapTap);
-  const onDragWpRef  = React.useRef(onDragWp);
-  const setSelRef    = React.useRef(setSelected);
-  addingRef.current   = adding;
-  onMapTapRef.current = onMapTap;
-  onDragWpRef.current = onDragWp;
-  setSelRef.current   = setSelected;
+  const addingRef      = React.useRef(adding);
+  const onMapTapRef    = React.useRef(onMapTap);
+  const onDragWpRef    = React.useRef(onDragWp);
+  const setSelRef      = React.useRef(setSelected);
+  const onLongPressRef = React.useRef(onLongPress);
+  addingRef.current      = adding;
+  onMapTapRef.current    = onMapTap;
+  onDragWpRef.current    = onDragWp;
+  setSelRef.current      = setSelected;
+  onLongPressRef.current = onLongPress;
 
   // Init map once
   React.useEffect(() => {
@@ -247,7 +249,49 @@ function MapView({ waypoints, selected, setSelected, onMapTap, adding, setAdding
       onMapTapRef.current({ lat: e.lngLat.lat, lng: e.lngLat.lng });
     });
 
-    return () => { map.remove(); mlRef.current = null; };
+    // Long-press detection via pointer events
+    let lpTimer = null;
+    let lpStart = null;
+    const LONG_PRESS_MS = 500;
+    const MOVE_THRESHOLD = 8; // pixels
+
+    const onPointerDown = (e) => {
+      if (addingRef.current) return;
+      lpStart = { x: e.clientX, y: e.clientY, e };
+      lpTimer = setTimeout(() => {
+        if (!mlRef.current) return;
+        const lngLat = mlRef.current.unproject([lpStart.x - containerRef.current.getBoundingClientRect().left, lpStart.y - containerRef.current.getBoundingClientRect().top]);
+        onLongPressRef.current && onLongPressRef.current({ lat: lngLat.lat, lng: lngLat.lng });
+        lpTimer = null;
+      }, LONG_PRESS_MS);
+    };
+    const cancelLp = (e) => {
+      if (lpTimer === null) return;
+      if (e && lpStart) {
+        const dx = e.clientX - lpStart.x;
+        const dy = e.clientY - lpStart.y;
+        if (Math.sqrt(dx * dx + dy * dy) < MOVE_THRESHOLD) return;
+      }
+      clearTimeout(lpTimer);
+      lpTimer = null;
+    };
+    const onPointerUp = () => { clearTimeout(lpTimer); lpTimer = null; };
+
+    const el = containerRef.current;
+    el.addEventListener('pointerdown', onPointerDown);
+    el.addEventListener('pointermove', cancelLp);
+    el.addEventListener('pointerup', onPointerUp);
+    el.addEventListener('pointercancel', onPointerUp);
+
+    return () => {
+      clearTimeout(lpTimer);
+      el.removeEventListener('pointerdown', onPointerDown);
+      el.removeEventListener('pointermove', cancelLp);
+      el.removeEventListener('pointerup', onPointerUp);
+      el.removeEventListener('pointercancel', onPointerUp);
+      map.remove();
+      mlRef.current = null;
+    };
   }, []);
 
   // Update route line
